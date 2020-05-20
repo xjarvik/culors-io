@@ -1,0 +1,70 @@
+.tile {
+    left: 0;
+    top: 0;
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background-color: lightgrey;
+}
+
+#tile1 {
+    border-top-left-radius: 65px;
+}
+
+#tile2 {
+    left: 205px;
+}
+
+#tile3 {
+    left: 410px;
+    border-top-right-radius: 65px;
+}
+
+#tile4 {
+    top: 205px;
+}
+
+#tile5 {
+    left: 205px;
+    top: 205px;
+}
+
+#tile6 {
+    left: 410px;
+    top: 205px;
+}
+
+#tile7 {
+    top: 410px;
+    border-bottom-left-radius: 65px;
+}
+
+#tile8 {
+    left: 205px;
+    top: 410px;
+}
+
+#tile9 {
+    left: 410px;
+    top: 410px;
+    border-bottom-right-radius: 65px;
+}
+
+#turn-text {
+    position: absolute;
+    top: 600px;
+}
+
+#my-color {
+    position: absolute;
+    top: 620px;
+}
+
+#ban-icon1, #ban-icon2, #ban-icon3, #ban-icon4, #ban-icon5 {
+    position: absolute;
+    z-index: 1;
+    left: 70px;
+    top: 70px;
+    pointer-events: none;
+    visibility: hidden;
+}
