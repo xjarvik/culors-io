@@ -1,6 +1,26 @@
+body {
+    overflow-x: hidden;
+    margin: 0;
+}
+
+#navbar {
+    height: 70px;
+    width: 100vw;
+    background-color: #F2EEED;
+    margin-top: 0;
+    box-shadow:0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 2px 10px 0 rgba(0, 0, 0, 0.09);
+}
+
+#logo {
+    position: absolute;
+    width: 220px;
+    top: 20px;
+    left: 42.75vw;
+}
+
 .tile {
-    left: 0;
-    top: 0;
+    top: calc(50vh - 100px + 70px);
+    left: calc(50vw - 100px);
     position: absolute;
     width: 200px;
     height: 200px;
@@ -8,56 +28,53 @@
 }
 
 #tile1 {
+    margin-left: -205px;
+    margin-top: -205px;
     border-top-left-radius: 65px;
 }
 
 #tile2 {
-    left: 205px;
+    margin-top: -205px;
 }
 
 #tile3 {
-    left: 410px;
+    margin-left: 205px;
+    margin-top: -205px;
     border-top-right-radius: 65px;
 }
 
 #tile4 {
-    top: 205px;
-}
-
-#tile5 {
-    left: 205px;
-    top: 205px;
+    margin-left: -205px;
 }
 
 #tile6 {
-    left: 410px;
-    top: 205px;
+    margin-left: 205px;
 }
 
 #tile7 {
-    top: 410px;
+    margin-left: -205px;
+    margin-top: 205px;
     border-bottom-left-radius: 65px;
 }
 
 #tile8 {
-    left: 205px;
-    top: 410px;
+    margin-top: 205px;
 }
 
 #tile9 {
-    left: 410px;
-    top: 410px;
+    margin-top: 205px;
+    margin-left: 205px;
     border-bottom-right-radius: 65px;
 }
 
 #turn-text {
     position: absolute;
-    top: 600px;
+    top: 900px;
 }
 
 #my-color {
     position: absolute;
-    top: 620px;
+    top: 920px;
 }
 
 #ban-icon1, #ban-icon2, #ban-icon3, #ban-icon4, #ban-icon5 {
