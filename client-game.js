@@ -107,23 +107,23 @@ const setBanIconToTile = function(iconNr, tileNr){
     banIsVisible = true
 
     if(tileNr == 1 || tileNr == 2 || tileNr == 3){
-        icon.style.top = "70px"
+        icon.style.marginTop = "calc(-10vw - 0.32vw + (5vw - 1.85vw))"
     }
     else if(tileNr == 4 || tileNr == 5 || tileNr == 6){
-        icon.style.top = "275px"
+        icon.style.marginTop = "calc(5vw - 1.85vw)"
     }
     else if(tileNr == 7 || tileNr == 8 || tileNr == 9){
-        icon.style.top = "480px"
+        icon.style.marginTop = "calc(10vw + 0.32vw + (5vw - 1.85vw))"
     }
 
     if(tileNr == 1 || tileNr == 4 || tileNr == 7){
-        icon.style.left = "70px"
+        icon.style.marginLeft = "calc(-10vw - 0.32vw + (5vw - 1.85vw))"
     }
     else if(tileNr == 2 || tileNr == 5 || tileNr == 8){
-        icon.style.left = "275px"
+        icon.style.marginLeft = "calc(5vw - 1.85vw)"
     }
     else if(tileNr == 3 || tileNr == 6 || tileNr == 9){
-        icon.style.left = "480px"
+        icon.style.marginLeft = "calc(10vw + 0.32vw + (5vw - 1.85vw))"
     }
 }
 
@@ -233,13 +233,13 @@ const setBoardColors = function(){
     for(let i = 0; i < tiles.length; i++){
         const tile = document.getElementById("tile" + (i + 1).toString())
         if(tiles[i] == "R"){
-            tile.style.backgroundColor = "red"
+            tile.style.backgroundColor = "#F01C17"
         }
         else if(tiles[i] == "B"){
-            tile.style.backgroundColor = "blue"
+            tile.style.backgroundColor = "#002AA2"
         }
         else if(tiles[i] == "Y"){
-            tile.style.backgroundColor = "yellow"
+            tile.style.backgroundColor = "#F4E620"
         }
         else if(tiles[i] == "O"){
             tile.style.backgroundColor = "lightgrey"
