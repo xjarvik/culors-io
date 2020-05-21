@@ -1,6 +1,28 @@
 body {
-    overflow-x: hidden;
+    overflow: hidden;
     margin: 0;
+}
+
+#guide {
+    width: 550px;
+    height: 550px;
+    z-index: 4;
+    position: absolute;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    box-shadow: 0px 0px 15px -4px rgba(0,0,0,0.75);
+    left: calc(50vw - 275px);
+    top: calc(50vh - 275px);
+}
+
+#overlay {
+    width: 1000%;
+    height: 1000%;
+    margin: 0;
+    position: absolute;
+    z-index: 3;
+    background-color: rgba(0, 0, 0, 0.3);
+    overflow: hidden;
 }
 
 #navbar {
@@ -142,4 +164,111 @@ body {
     background-color: initial;
     top: calc(50vh - 5vw - 3px);
     font-size: 4.25vw !important;
+}
+
+.guide-circle {
+    position: absolute;
+    background-color: #e0e0e0;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    bottom: 50px;
+    left: 270px;
+}
+
+#guide-circle-2 {
+    margin-left: -60px;
+}
+
+#guide-circle-3 {
+    margin-left: -45px;
+}
+
+#guide-circle-4 {
+    margin-left: -30px;
+}
+
+#guide-circle-5 {
+    margin-left: -15px;
+}
+
+#guide-circle-7 {
+    margin-left: 15px;
+}
+
+#guide-circle-8 {
+    margin-left: 30px;
+}
+
+#guide-circle-9 {
+    margin-left: 45px;
+}
+
+#guide-circle-10 {
+    margin-left: 60px;
+}
+
+#guide-text {
+    position: absolute;
+    font-family: "Montserrat", sans-serif;
+    text-align: center;
+    width: 450px;
+    left: 50px;
+    bottom: 87px;
+}
+
+#guide-next-button, #guide-previous-button {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 3px solid lightgrey;
+    border-radius: 8px;
+    bottom: 33px;
+}
+
+#guide-next-button {
+    right: 30px;
+}
+
+#guide-previous-button {
+    left: 30px;
+}
+
+#guide-next-button:hover, #guide-previous-button:hover {
+    cursor: pointer;
+    border-color: #F01C17;
+}
+
+#guide-previous-button:hover {
+    border-color: #002AA2;
+}
+
+#guide-next-button > i, #guide-previous-button > i {
+    margin-left: 11px;
+    margin-top: 6.5px;
+    font-size: 30px;
+    color: lightgrey;
+}
+
+#guide-previous-button > i {
+    margin-left: 7px;
+}
+
+#guide-board {
+    position: absolute;
+    width: 200px;
+    left: 175px;
+    top: 50px;
+}
+
+.red-text {
+    color: #F01C17;
+}
+
+.blue-text {
+    color: #002AA2;
+}
+
+.yellow-text {
+    color: #F4E620;
 }
