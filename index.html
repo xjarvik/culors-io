@@ -6,11 +6,20 @@
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     <script src="client-game.js"></script>
     <script src="socket.io.js"></script>
 </head>
 <body>
     <div id="navbar"></div>
+    <div id="bottombar">
+        <p id="bottombar-text">Searching for opponent</p>
+    </div>
+    <div id="opponent-wait-animation">
+        <div id="circle-1"></div>
+        <div id="circle-2"></div>
+        <div id="circle-3"></div>
+    </div>
     <img id="logo" src="logo.png" />
     <div class="tile" id="tile1"></div>
     <div class="tile" id="tile2"></div>
@@ -21,7 +30,7 @@
     <div class="tile" id="tile7"></div>
     <div class="tile" id="tile8"></div>
     <div class="tile" id="tile9"></div>
-    <p id="turn-text">Searching for opponent...</p>
+    <p id="turn-text">Searching for opponent</p>
     <p id ="my-color"></p>
     <i id="ban-icon1" class="fa fa-ban fa-4x tile" aria-hidden="true"></i>
     <i id="ban-icon2" class="fa fa-ban fa-4x tile" aria-hidden="true"></i>
