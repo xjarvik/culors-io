@@ -38,6 +38,9 @@ const handlePreviousButtonClick = function(){
 const handleCurrentPage = function(){
     document.getElementById("guide-text").innerHTML = pageContent[currentPage]
     updateGuideCircles()
+    if(currentPage == 2){
+        startPage2Anim()
+    }
 }
 
 const updateGuideCircles = function(){
@@ -54,4 +57,26 @@ const updateGuideCircles = function(){
             }
         }
     }
+}
+
+const startPage2Anim = function(){
+    const cursor = document.getElementById("cursor-red")
+    const anim = function(){
+        setTimeout(function(){
+            cursor.style.animation = "cursor-click 0.4s, page-1-mid 1.6s"
+            cursor.style.animationDelay = "1s, 0s"
+        }, 1500)
+        setTimeout(function(){
+            cursor.style.animation = "cursor-click-2 0.4s, page-1-right 1.6s"
+            cursor.style.animationDelay = "1s, 0s"
+        }, 5000)
+        setTimeout(function(){
+            cursor.style.animation = "cursor-click-3 0.4s, page-1-top 1.6s"
+            cursor.style.animationDelay = "1s, 0s"
+        }, 8500)
+    }
+    anim()
+    setInterval(function(){
+        anim()
+    }, 12000)
 }
