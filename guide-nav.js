@@ -11,11 +11,30 @@ var pageContent = [
     "By placing your color directly on a <b><span class=\"yellow-text\">blocker</span></b> tile, that tile and all <i>connected</i> blocker tiles will be filled with your color. Doing this will <i>not</i> disable those tiles for the opponent during the next round.",
     "That's it! Press Play to begin!"
 ]
+var currentAnimTimeouts = []
+var currentAnimIntervals = []
 
 document.addEventListener("DOMContentLoaded", function(event){
+    if(localStorage.getItem("guide") == null){
+        document.getElementById("guide").style.display = "inherit"
+        document.getElementById("overlay").style.display = "inherit"
+        localStorage.setItem("guide", "seen")
+    }
     handleNextButtonClick()
     handlePreviousButtonClick()
+    handleCrossClick()
 })
+
+const handleCrossClick = function(){
+    document.getElementById("cross-click").addEventListener("click", function(event){
+        document.getElementById("guide").style.display = "none"
+        document.getElementById("overlay").style.display = "none"
+    })
+    document.getElementById("guide-button").addEventListener("click", function(event){
+        document.getElementById("guide").style.display = "inherit"
+        document.getElementById("overlay").style.display = "inherit"
+    })
+}
 
 const handleNextButtonClick = function(){
     document.getElementById("guide-next-button").addEventListener("click", function(event){
@@ -38,9 +57,61 @@ const handlePreviousButtonClick = function(){
 const handleCurrentPage = function(){
     document.getElementById("guide-text").innerHTML = pageContent[currentPage]
     updateGuideCircles()
+    resetAnims()
     if(currentPage == 2){
         startPage2Anim()
     }
+    else if(currentPage == 3){
+        startPage3Anim()
+    }
+    else if(currentPage == 4){
+        startPage4Anim()
+    }
+    else if(currentPage == 5){
+        startPage5Anim()
+    }
+    else if(currentPage == 6){
+        startPage6Anim()
+    }
+    else if(currentPage == 7){
+        startPage7Anim()
+    }
+    else if(currentPage == 8){
+        startPage8Anim()
+    }
+    else if(currentPage == 9){
+        showPlayButton()
+    }
+}
+
+const showPlayButton = function(){
+    var guideCircles = document.getElementsByClassName("guide-circle")
+
+    for(var i = 0; i < guideCircles.length; i++){
+        guideCircles[i].style.visibility = "hidden"
+    }
+
+    var selectedColor = ""
+    if(Math.random() > 0.5){
+        selectedColor = "#F01C17"
+    }
+    else{
+        selectedColor = "#002AA2"
+    }
+
+    document.getElementById("play-button").style.visibility = "inherit"
+    document.getElementById("play-button").addEventListener("mouseenter", function(event){
+        document.getElementById("play-button").style.borderColor = selectedColor
+        document.getElementById("play-button-text").style.color = selectedColor
+    })
+    document.getElementById("play-button").addEventListener("mouseleave", function(event){
+        document.getElementById("play-button").style.borderColor = "lightgrey"
+        document.getElementById("play-button-text").style.color = "lightgrey"
+    })
+    document.getElementById("play-button").addEventListener("click", function(event){
+        document.getElementById("guide").style.display = "none"
+        document.getElementById("overlay").style.display = "none"
+    })
 }
 
 const updateGuideCircles = function(){
@@ -61,22 +132,309 @@ const updateGuideCircles = function(){
 
 const startPage2Anim = function(){
     const cursor = document.getElementById("cursor-red")
+    setTilesToColor([1, 2, 3, 4, 5, 6, 7, 8, 9], "O")
     const anim = function(){
-        setTimeout(function(){
-            cursor.style.animation = "cursor-click 0.4s, page-1-mid 1.6s"
-            cursor.style.animationDelay = "1s, 0s"
-        }, 1500)
-        setTimeout(function(){
-            cursor.style.animation = "cursor-click-2 0.4s, page-1-right 1.6s"
-            cursor.style.animationDelay = "1s, 0s"
-        }, 5000)
-        setTimeout(function(){
-            cursor.style.animation = "cursor-click-3 0.4s, page-1-top 1.6s"
-            cursor.style.animationDelay = "1s, 0s"
-        }, 8500)
+        currentAnimTimeouts.push(setTimeout(function(){
+            cursor.classList.remove("page-1-mid")
+            cursor.classList.remove("page-1-right")
+            cursor.classList.remove("page-1-top")
+            void cursor.offsetWidth
+            cursor.classList.add("page-1-mid")
+            fadeInTiles([2, 4, 5, 6, 8], "R")
+        }, 1500))
+        currentAnimTimeouts.push(setTimeout(function(){
+            cursor.classList.remove("page-1-mid")
+            cursor.classList.remove("page-1-right")
+            cursor.classList.remove("page-1-top")
+            void cursor.offsetWidth
+            cursor.classList.add("page-1-right")
+            fadeInTiles([3, 5, 6, 9], "R")
+        }, 5000))
+        currentAnimTimeouts.push(setTimeout(function(){
+            cursor.classList.remove("page-1-mid")
+            cursor.classList.remove("page-1-right")
+            cursor.classList.remove("page-1-top")
+            void cursor.offsetWidth
+            cursor.classList.add("page-1-top")
+            fadeInTiles([2, 3, 6], "R")
+        }, 8500))
     }
     anim()
-    setInterval(function(){
+    currentAnimIntervals.push(setInterval(function(){
         anim()
-    }, 12000)
+    }, 12000))
+}
+
+const startPage3Anim = function(){
+    const cursor = document.getElementById("cursor-red")
+    setTilesToColor([3, 7, 9], "R")
+    setTilesToColor([2, 5, 6, 8], "B")
+    setTilesToColor([1, 4], "Y")
+    const anim = function(){
+        currentAnimTimeouts.push(setTimeout(function(){
+            cursor.classList.remove("page-1-mid")
+            cursor.classList.remove("page-1-right")
+            cursor.classList.remove("page-1-top")
+            void cursor.offsetWidth
+            cursor.classList.add("page-1-mid")
+            fadeInTiles([2, 5, 6, 8], "BR")
+        }, 1500))
+    }
+    anim()
+    currentAnimIntervals.push(setInterval(function(){
+        anim()
+    }, 5000))
+}
+
+const startPage4Anim = function(){
+    const cursor = document.getElementById("cursor-red")
+    const blueCursor = document.getElementById("cursor-blue")
+    setTilesToColor([1], "R")
+    setTilesToColor([2, 3, 4, 5, 6, 8, 9], "B")
+    setTilesToColor([7], "Y")
+    const anim = function(){
+        currentAnimTimeouts.push(setTimeout(function(){
+            cursor.classList.remove("page-1-mid")
+            cursor.classList.remove("page-1-right")
+            cursor.classList.remove("page-1-top")
+            void cursor.offsetWidth
+            cursor.classList.add("page-1-right")
+            fadeInTiles([3, 5, 6, 9], "BRS")
+            fadeInTiles([1], "ban")
+        }, 1500))
+        currentAnimTimeouts.push(setTimeout(function(){
+            blueCursor.classList.remove("page-1-mid")
+            blueCursor.classList.remove("page-1-right")
+            blueCursor.classList.remove("page-1-top")
+            void blueCursor.offsetWidth
+            blueCursor.classList.add("page-1-mid")
+            fadeInTiles([3, 5, 6, 9], "RBS")
+        }, 5000))
+    }
+    anim()
+    currentAnimIntervals.push(setInterval(function(){
+        anim()
+    }, 8500))
+}
+
+const startPage5Anim = function(){
+    const cursor = document.getElementById("cursor-red")
+    setTilesToColor([1], "R")
+    setTilesToColor([2, 3, 4, 5, 6, 7, 8, 9], "B")
+    const anim = function(){
+        currentAnimTimeouts.push(setTimeout(function(){
+            cursor.classList.remove("page-1-mid")
+            cursor.classList.remove("page-1-right")
+            cursor.classList.remove("page-1-top")
+            void cursor.offsetWidth
+            cursor.classList.add("page-1-mid")
+            fadeInTiles([5], "Y")
+        }, 1500))
+    }
+    anim()
+    currentAnimIntervals.push(setInterval(function(){
+        anim()
+    }, 5000))
+}
+
+const startPage6Anim = function(){
+    document.getElementById("guide-ban-icon1").style.opacity = "1"
+    document.getElementById("guide-ban-icon2").style.opacity = "1"
+    document.getElementById("guide-ban-icon3").style.opacity = "1"
+    document.getElementById("guide-ban-icon4").style.opacity = "1"
+
+    const cursor = document.getElementById("cursor-red")
+    setTilesToColor([1], "R")
+    setTilesToColor([2, 3, 4, 5, 6, 7, 8, 9], "B")
+    const anim = function(){
+        currentAnimTimeouts.push(setTimeout(function(){
+            cursor.classList.remove("page-1-mid")
+            cursor.classList.remove("page-1-right")
+            cursor.classList.remove("page-1-top")
+            void cursor.offsetWidth
+            cursor.classList.add("page-1-right")
+            fadeInTiles([6], "Y")
+        }, 1500))
+    }
+    anim()
+    currentAnimIntervals.push(setInterval(function(){
+        anim()
+    }, 5000))
+}
+
+const startPage7Anim = function(){
+    const cursor = document.getElementById("cursor-red")
+    setTilesToColor([4, 7], "R")
+    setTilesToColor([2, 3, 6], "B")
+    setTilesToColor([1, 5, 8, 9], "Y")
+    const anim = function(){
+        currentAnimTimeouts.push(setTimeout(function(){
+            cursor.classList.remove("page-1-mid")
+            cursor.classList.remove("page-1-right")
+            cursor.classList.remove("page-1-top")
+            void cursor.offsetWidth
+            cursor.classList.add("page-1-right")
+            fadeInTiles([3, 6], "BR")
+        }, 1500))
+    }
+    anim()
+    currentAnimIntervals.push(setInterval(function(){
+        anim()
+    }, 5000))
+}
+
+const startPage8Anim = function(){
+    const cursor = document.getElementById("cursor-red")
+    setTilesToColor([4, 7], "R")
+    setTilesToColor([2, 3, 6], "B")
+    setTilesToColor([1, 5, 8, 9], "Y")
+    const anim = function(){
+        currentAnimTimeouts.push(setTimeout(function(){
+            cursor.classList.remove("page-1-mid")
+            cursor.classList.remove("page-1-right")
+            cursor.classList.remove("page-1-top")
+            void cursor.offsetWidth
+            cursor.classList.add("page-1-mid")
+            fadeInTiles([5, 8, 9], "RY")
+        }, 1500))
+    }
+    anim()
+    currentAnimIntervals.push(setInterval(function(){
+        anim()
+    }, 5000))
+}
+
+const fadeInTiles = function(tiles, color){
+    for(let i = 0; i < tiles.length; i++){
+        if(color == "R"){
+            document.getElementById("guide-tile" + tiles[i].toString()).classList.remove("red-fade")
+            void document.getElementById("guide-tile" + tiles[i].toString()).offsetWidth
+            document.getElementById("guide-tile" + tiles[i].toString()).classList.add("red-fade")
+        }
+        else if(color == "BRS"){
+            document.getElementById("guide-tile" + tiles[i].toString()).style.backgroundColor = "#002AA2"
+            document.getElementById("guide-tile" + tiles[i].toString()).classList.remove("bluetored-fade-stick")
+            document.getElementById("guide-tile" + tiles[i].toString()).classList.remove("redtoblue-fade-stick")
+            void document.getElementById("guide-tile" + tiles[i].toString()).offsetWidth
+            document.getElementById("guide-tile" + tiles[i].toString()).classList.add("bluetored-fade-stick")
+        }
+        else if(color == "RBS"){
+            document.getElementById("guide-tile" + tiles[i].toString()).style.backgroundColor = "#F01C17"
+            document.getElementById("guide-tile" + tiles[i].toString()).classList.remove("redtoblue-fade-stick")
+            void document.getElementById("guide-tile" + tiles[i].toString()).offsetWidth
+            document.getElementById("guide-tile" + tiles[i].toString()).classList.add("redtoblue-fade-stick")
+        }
+        else if(color == "B"){
+            document.getElementById("guide-tile" + tiles[i].toString()).classList.remove("blue-fade")
+            void document.getElementById("guide-tile" + tiles[i].toString()).offsetWidth
+            document.getElementById("guide-tile" + tiles[i].toString()).classList.add("blue-fade")
+        }
+        else if(color == "BR"){
+            document.getElementById("guide-tile" + tiles[i].toString()).classList.remove("bluetored-fade")
+            void document.getElementById("guide-tile" + tiles[i].toString()).offsetWidth
+            document.getElementById("guide-tile" + tiles[i].toString()).classList.add("bluetored-fade")
+        }
+        else if(color == "RY"){
+            document.getElementById("guide-tile" + tiles[i].toString()).classList.remove("yellow-fade-red")
+            void document.getElementById("guide-tile" + tiles[i].toString()).offsetWidth
+            document.getElementById("guide-tile" + tiles[i].toString()).classList.add("yellow-fade-red")
+        }
+        else if(color == "Y"){
+            document.getElementById("guide-tile" + tiles[i].toString()).classList.remove("yellow-fade")
+            void document.getElementById("guide-tile" + tiles[i].toString()).offsetWidth
+            document.getElementById("guide-tile" + tiles[i].toString()).classList.add("yellow-fade")
+        }
+        else if(color == "ban"){
+            document.getElementById("guide-ban-icon1").classList.remove("guide-ban-icon-fade-in-pulsate")
+            void document.getElementById("guide-ban-icon1").offsetWidth
+            document.getElementById("guide-ban-icon1").classList.add("guide-ban-icon-fade-in-pulsate")
+
+            document.getElementById("guide-ban-icon2").classList.remove("guide-ban-icon-fade-in")
+            void document.getElementById("guide-ban-icon2").offsetWidth
+            document.getElementById("guide-ban-icon2").classList.add("guide-ban-icon-fade-in")
+
+            document.getElementById("guide-ban-icon3").classList.remove("guide-ban-icon-fade-in")
+            void document.getElementById("guide-ban-icon3").offsetWidth
+            document.getElementById("guide-ban-icon3").classList.add("guide-ban-icon-fade-in")
+
+            document.getElementById("guide-ban-icon4").classList.remove("guide-ban-icon-fade-in")
+            void document.getElementById("guide-ban-icon4").offsetWidth
+            document.getElementById("guide-ban-icon4").classList.add("guide-ban-icon-fade-in")
+        }
+    }
+}
+
+const setTilesToColor = function(tiles, color){
+    for(let i = 0; i < tiles.length; i++){
+        if(color == "R"){
+            document.getElementById("guide-tile" + tiles[i].toString()).style.backgroundColor = "#F01C17"
+        }
+        else if(color == "B"){
+            document.getElementById("guide-tile" + tiles[i].toString()).style.backgroundColor = "#002AA2"
+        }
+        else if(color == "Y"){
+            document.getElementById("guide-tile" + tiles[i].toString()).style.backgroundColor = "#F4E620"
+        }
+        else if(color == "O"){
+            document.getElementById("guide-tile" + tiles[i].toString()).style.backgroundColor = "lightgrey"
+        }
+    }
+}
+
+const resetAnims = function(){
+    document.getElementById("play-button").style.visibility = "hidden"
+    var guideCircles = document.getElementsByClassName("guide-circle")
+
+    for(var i = 0; i < guideCircles.length; i++){
+        guideCircles[i].style.visibility = "inherit"
+    }
+
+    document.getElementById("guide-ban-icon1").style.opacity = "0"
+    document.getElementById("guide-ban-icon2").style.opacity = "0"
+    document.getElementById("guide-ban-icon3").style.opacity = "0"
+    document.getElementById("guide-ban-icon4").style.opacity = "0"
+
+    for(let i = 1; i <= 9; i++){
+        document.getElementById("guide-tile" + i.toString()).classList.remove("red-fade")
+        document.getElementById("guide-tile" + i.toString()).classList.remove("blue-fade")
+        document.getElementById("guide-tile" + i.toString()).classList.remove("yellow-fade")
+        document.getElementById("guide-tile" + i.toString()).classList.remove("yellow-fade-red")
+        document.getElementById("guide-tile" + i.toString()).classList.remove("bluetored-fade")
+        document.getElementById("guide-tile" + i.toString()).classList.remove("bluetored-fade-stick")
+        document.getElementById("guide-tile" + i.toString()).classList.remove("redtoblue-fade-stick")
+        void document.getElementById("guide-tile" + i.toString()).offsetWidth
+    }
+    while(currentAnimTimeouts.length > 0){
+        var timeout = currentAnimTimeouts.pop()
+        clearTimeout(timeout)
+    }
+    while(currentAnimIntervals.length > 0){
+        var interval = currentAnimIntervals.pop()
+        clearInterval(interval)
+    }
+    var redCursor = document.getElementById("cursor-red")
+    redCursor.classList.remove("page-1-mid")
+    redCursor.classList.remove("page-1-right")
+    redCursor.classList.remove("page-1-top")
+    void redCursor.offsetWidth
+    redCursor.style.opacity = "0"
+    
+    var blueCursor = document.getElementById("cursor-blue")
+    blueCursor.classList.remove("page-1-mid")
+    blueCursor.classList.remove("page-1-right")
+    blueCursor.classList.remove("page-1-top")
+    void blueCursor.offsetWidth
+    blueCursor.style.opacity = "0"
+
+    document.getElementById("guide-ban-icon1").classList.remove("guide-ban-icon-fade-in-pulsate")
+    void document.getElementById("guide-ban-icon1").offsetWidth
+
+    document.getElementById("guide-ban-icon2").classList.remove("guide-ban-icon-fade-in")
+    void document.getElementById("guide-ban-icon2").offsetWidth
+
+    document.getElementById("guide-ban-icon3").classList.remove("guide-ban-icon-fade-in")
+    void document.getElementById("guide-ban-icon3").offsetWidth
+
+    document.getElementById("guide-ban-icon4").classList.remove("guide-ban-icon-fade-in")
+    void document.getElementById("guide-ban-icon4").offsetWidth
 }
