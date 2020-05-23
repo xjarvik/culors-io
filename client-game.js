@@ -258,5 +258,5 @@ const setBoardColors = function(){
 }
 
 const setMyColorText = function(text){
-    document.getElementById("my-color").innerText = text
+    /*document.getElementById("my-color").innerText = text*/
 }

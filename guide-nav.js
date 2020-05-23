@@ -16,6 +16,7 @@ var currentAnimIntervals = []
 
 document.addEventListener("DOMContentLoaded", function(event){
     scaleGuide()
+    scaleBoard()
     if(localStorage.getItem("guide") == null){
         document.getElementById("guide").style.display = "inherit"
         document.getElementById("overlay").style.display = "inherit"
@@ -35,8 +36,27 @@ const scaleGuide = function(){
         numToCompare = window.innerHeight
     }
     if(numToCompare < 600){
-        const scale = (numToCompare / 550) * 0.9
+        const scale = (numToCompare / 550) * 0.98
         document.getElementById("guide").style.transform = "scale(" + scale.toString() + ")"
+    }
+}
+
+const scaleBoard = function(){
+    var numToCompare = 0
+    if(window.innerWidth <= window.innerHeight){
+        numToCompare = window.innerWidth
+    }
+    else {
+        numToCompare = window.innerHeight
+    }
+    if(numToCompare < 600){
+        const boardWidth = (window.innerWidth * 0.2064)
+        const scale = (numToCompare / boardWidth)
+        document.getElementById("board").style.transform = "scale(" + (scale * 0.45).toString() + ")"
+        for(let i = 1; i <= 9; i++){
+            document.getElementById("tile" + i.toString()).style.left = "calc(50vw - " + (((boardWidth / 2) * 0.45) + 1.5) + "px)"
+            document.getElementById("tile" + i.toString()).style.top = "16vh"
+        }
     }
 }
 
