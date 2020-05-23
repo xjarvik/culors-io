@@ -56,6 +56,9 @@ const scaleBoard = function(){
         for(let i = 1; i <= 9; i++){
             document.getElementById("tile" + i.toString()).style.left = "calc(50vw - " + (((boardWidth / 2) * 0.45) + 1.5) + "px)"
             document.getElementById("tile" + i.toString()).style.top = "calc(19vh - 27px)"
+            if(navigator.userAgent.match(/Android/i)){
+                document.getElementById("tile" + i.toString()).style.top = "calc(19vh - 41px)"
+            }
         }
     }
 }
