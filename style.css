@@ -60,9 +60,10 @@ body {
     font-family: "Open Sans", sans-serif;
     font-size: 14px;
     margin-top: 35px;
-    margin-left: calc(50vw - 78px);
+    width: 300px;
+    margin-left: calc(50vw - 150px);
+    text-align: center;
 }
-
 
 #opponent-wait-animation {
     position: absolute;
