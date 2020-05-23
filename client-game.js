@@ -59,7 +59,7 @@ const getAmountOfBlueTiles = function(){
 }
 
 const setTurnText = function(message){
-    document.getElementById("turn-text").innerText = message
+    document.getElementById("bottombar-text").innerText = message
 }
 
 const updateTurnText = function(){

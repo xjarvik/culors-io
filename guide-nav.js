@@ -15,6 +15,7 @@ var currentAnimTimeouts = []
 var currentAnimIntervals = []
 
 document.addEventListener("DOMContentLoaded", function(event){
+    scaleGuide()
     if(localStorage.getItem("guide") == null){
         document.getElementById("guide").style.display = "inherit"
         document.getElementById("overlay").style.display = "inherit"
@@ -24,6 +25,20 @@ document.addEventListener("DOMContentLoaded", function(event){
     handlePreviousButtonClick()
     handleCrossClick()
 })
+
+const scaleGuide = function(){
+    var numToCompare = 0
+    if(window.innerWidth <= window.innerHeight){
+        numToCompare = window.innerWidth
+    }
+    else {
+        numToCompare = window.innerHeight
+    }
+    if(numToCompare < 600){
+        const scale = (numToCompare / 550) * 0.9
+        document.getElementById("guide").style.transform = "scale(" + scale.toString() + ")"
+    }
+}
 
 const handleCrossClick = function(){
     document.getElementById("cross-click").addEventListener("click", function(event){
