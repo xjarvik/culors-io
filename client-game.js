@@ -192,7 +192,11 @@ const setCookie = function(name, value, days){
 }
 
 const setUpOpponentWaiter = function(){
+    setTurnText("Connecting")
     socket = io("https://server.culors.io")
+    socket.on("connect", function(){
+        setTurnText("Searching for opponent")
+    })
     socket.on("matchCreated", function(receivedColor){
         myColor = receivedColor
         setBanIconToTile(1, 5)
