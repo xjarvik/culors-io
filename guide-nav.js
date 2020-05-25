@@ -22,9 +22,9 @@ document.addEventListener("DOMContentLoaded", function(event){
         scaleBoard()
     })
     if(localStorage.getItem("guide") == null){
+        document.getElementById("opponent-wait-animation").style.visibility = "hidden"
         document.getElementById("guide").style.display = "inherit"
         document.getElementById("overlay").style.display = "inherit"
-        localStorage.setItem("guide", "seen")
     }
     handleNextButtonClick()
     handlePreviousButtonClick()
@@ -64,8 +64,13 @@ const scaleBoard = function(){
 
 const handleCrossClick = function(){
     document.getElementById("cross-click").addEventListener("click", function(event){
+        if(localStorage.getItem("guide") == null){
+            localStorage.setItem("guide", "seen")
+            setUpOpponentWaiter()
+        }
         document.getElementById("guide").style.display = "none"
         document.getElementById("overlay").style.display = "none"
+        document.getElementById("opponent-wait-animation").style.visibility = "inherit"
     })
     document.getElementById("guide-button").addEventListener("click", function(event){
         document.getElementById("guide").style.display = "inherit"
@@ -146,6 +151,11 @@ const showPlayButton = function(){
         document.getElementById("play-button-text").style.color = "lightgrey"
     })
     document.getElementById("play-button").addEventListener("click", function(event){
+        if(localStorage.getItem("guide") == null){
+            localStorage.setItem("guide", "seen")
+            setUpOpponentWaiter()
+        }
+        document.getElementById("opponent-wait-animation").style.visibility = "inherit"
         document.getElementById("guide").style.display = "none"
         document.getElementById("overlay").style.display = "none"
     })

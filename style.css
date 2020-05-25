@@ -6,7 +6,7 @@ body {
 #guide {
     width: 550px;
     height: 550px;
-    z-index: 4;
+    z-index: 100;
     position: absolute;
     background-color: #FFFFFF;
     border-radius: 20px;
@@ -38,7 +38,7 @@ body {
     height: 1000%;
     margin: 0;
     position: absolute;
-    z-index: 3;
+    z-index: 50;
     background-color: rgba(0, 0, 0, 0.3);
     overflow: hidden;
     display: none;
@@ -786,4 +786,60 @@ body {
         top: 88px;
         right: 15px;
     }
+}
+
+#turn-pill {
+    position: absolute;
+    background-color: #F01C17;
+    bottom: 0px;
+    left: calc(50vw - 110px);
+    height: 70px;
+    width: 220px;
+    border-radius: 50px;
+    z-index: 40;
+    animation: pill-show 0.5s;
+    display: none;
+}
+
+#turn-pill-text {
+    position: absolute;
+    width: 220px;
+    height: 70px;
+    text-align: center;
+    font-family: "Montserrat", sans-serif;
+    color: #F6F6F6;
+    font-size: 20px;
+    opacity: 0;
+    animation: pill-text-show 0.5s;
+    animation-fill-mode: forwards;
+    line-height: 20px;
+}
+
+@keyframes pill-show {
+    0% {
+        width: 0px;
+        left: calc(50vw);
+    }
+    100% {
+        width: 220px;
+        left: calc(50vw - 110px);
+    }
+}
+
+@keyframes pill-text-show {
+    0% {
+        opacity: 0;
+        left: -110px;
+    }
+    30% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        left: 0px;
+    }
+}
+
+.small-pill-text {
+    font-size: 15px;
 }

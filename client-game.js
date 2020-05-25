@@ -11,7 +11,9 @@ var canClickTile = true
 var banIsVisible = false
 
 document.addEventListener("DOMContentLoaded", function(event){
-    setUpOpponentWaiter()
+    if(localStorage.getItem("guide") != null){
+        setUpOpponentWaiter()
+    }
 })
 
 const registerAllTileClickEvents = function(){
@@ -59,43 +61,80 @@ const getAmountOfBlueTiles = function(){
 }
 
 const setTurnText = function(message){
-    document.getElementById("bottombar-text").innerText = message
+    document.getElementById("bottombar-text").innerHTML = message
+    document.getElementById("turn-pill-text").innerHTML = message
 }
 
 const updateTurnText = function(){
+    document.getElementById("turn-pill").style.width = "222px"
+    document.getElementById("turn-pill").style.height = "70px"
+    document.getElementById("turn-pill-text").style.top = "initial"
+    document.getElementById("turn-pill-text").style.marginLeft = "initial"
     if(playerTurn == 0){
         if(getAmountOfRedTiles() < getAmountOfBlueTiles() && redHasPlaced && !blockerWasPlaced){
             if(myColor == "R"){
-                setTurnText("Your turn (blocker)")
+                setTurnText("Your turn<br/><span class=\"small-pill-text\">blocker</span>")
+                document.getElementById("turn-pill").style.backgroundColor = "#F01C17"
+                document.getElementById("turn-pill").style.border = "4px solid #F4E620"
+                document.getElementById("turn-pill").style.width = "212px"
+                document.getElementById("turn-pill").style.height = "62px"
+                document.getElementById("turn-pill-text").style.top = "-4px"
+                document.getElementById("turn-pill-text").style.marginLeft = "-4px"
             }
             else if(myColor == "B"){
-                setTurnText("Opponent's turn (blocker)")
+                setTurnText("Opponent's turn<br/><span class=\"small-pill-text\">blocker</span>")
+                document.getElementById("turn-pill").style.backgroundColor = "#F01C17"
+                document.getElementById("turn-pill").style.border = "4px solid #F4E620"
+                document.getElementById("turn-pill").style.width = "212px"
+                document.getElementById("turn-pill").style.height = "62px"
+                document.getElementById("turn-pill-text").style.top = "-4px"
+                document.getElementById("turn-pill-text").style.marginLeft = "-4px"
             }
         }
         else{
             if(myColor == "R"){
-                setTurnText("Your turn (color)")
+                setTurnText("Your turn<br/><span class=\"small-pill-text\">color</span>")
+                document.getElementById("turn-pill").style.backgroundColor = "#F01C17"
+                document.getElementById("turn-pill").style.border = "none"
             }
             else if(myColor == "B"){
-                setTurnText("Opponent's turn (color)")
+                setTurnText("Opponent's turn<br/><span class=\"small-pill-text\">color</span>")
+                document.getElementById("turn-pill").style.backgroundColor = "#F01C17"
+                document.getElementById("turn-pill").style.border = "none"
             }
         }
     }
     else if(playerTurn == 1){
         if(getAmountOfBlueTiles() < getAmountOfRedTiles() && blueHasPlaced && !blockerWasPlaced){
             if(myColor == "B"){
-                setTurnText("Your turn (blocker)")
+                setTurnText("Your turn<br/><span class=\"small-pill-text\">blocker</span>")
+                document.getElementById("turn-pill").style.backgroundColor = "#002AA2"
+                document.getElementById("turn-pill").style.border = "4px solid #F4E620"
+                document.getElementById("turn-pill").style.width = "212px"
+                document.getElementById("turn-pill").style.height = "62px"
+                document.getElementById("turn-pill-text").style.top = "-4px"
+                document.getElementById("turn-pill-text").style.marginLeft = "-4px"
             }
             else if(myColor == "R"){
-                setTurnText("Opponent's turn (blocker)")
+                setTurnText("Opponent's turn<br/><span class=\"small-pill-text\">blocker</span>")
+                document.getElementById("turn-pill").style.backgroundColor = "#002AA2"
+                document.getElementById("turn-pill").style.border = "4px solid #F4E620"
+                document.getElementById("turn-pill").style.width = "212px"
+                document.getElementById("turn-pill").style.height = "62px"
+                document.getElementById("turn-pill-text").style.top = "-4px"
+                document.getElementById("turn-pill-text").style.marginLeft = "-4px"
             }
         }
         else{
             if(myColor == "B"){
-                setTurnText("Your turn (color)")
+                setTurnText("Your turn<br/><span class=\"small-pill-text\">color</span>")
+                document.getElementById("turn-pill").style.backgroundColor = "#002AA2"
+                document.getElementById("turn-pill").style.border = "none"
             }
             else if(myColor == "R"){
-                setTurnText("Opponent's turn (color)")
+                setTurnText("Opponent's turn<br/><span class=\"small-pill-text\">color</span>")
+                document.getElementById("turn-pill").style.backgroundColor = "#002AA2"
+                document.getElementById("turn-pill").style.border = "none"
             }
         }
     }
@@ -203,11 +242,17 @@ const setUpOpponentWaiter = function(){
 
         if(myColor == "R"){
             setMyColorText("Your color is: Red")
-            setTurnText("Your turn (color)")
+            setTurnText("Your turn<br/><span class=\"small-pill-text\">color</span>")
+            document.getElementById("turn-pill").style.display = "inherit"
+            document.getElementById("opponent-wait-animation").style.visibility = "hidden"
+            document.getElementById("bottombar-text").style.visibility = "hidden"
         }
         else if(myColor == "B"){
             setMyColorText("Your color is: Blue")
-            setTurnText("Opponent's turn (color)")
+            setTurnText("Opponent's turn<br/><span class=\"small-pill-text\">color</span>")
+            document.getElementById("turn-pill").style.display = "inherit"
+            document.getElementById("opponent-wait-animation").style.visibility = "hidden"
+            document.getElementById("bottombar-text").style.visibility = "hidden"
         }
         socket.on("data", function(data){
             playerTurn = data.playerTurn
