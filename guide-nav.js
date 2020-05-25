@@ -17,6 +17,10 @@ var currentAnimIntervals = []
 document.addEventListener("DOMContentLoaded", function(event){
     scaleGuide()
     scaleBoard()
+    window.addEventListener("resize", function(event){
+        scaleGuide()
+        scaleBoard()
+    })
     if(localStorage.getItem("guide") == null){
         document.getElementById("guide").style.display = "inherit"
         document.getElementById("overlay").style.display = "inherit"
@@ -39,28 +43,23 @@ const scaleGuide = function(){
         const scale = (numToCompare / 550) * 0.98
         document.getElementById("guide").style.transform = "scale(" + scale.toString() + ")"
     }
+    else {
+        document.getElementById("guide").style.transform = "scale(1)"
+    }
 }
 
 const scaleBoard = function(){
-    var numToCompare = 0
-    if(window.innerWidth <= window.innerHeight){
-        numToCompare = window.innerWidth
+    const boardWidth = window.innerWidth * 0.3064
+    var scale = 1
+    if(window.innerWidth <= 600){
+        scale = 2
     }
-    else {
-        numToCompare = window.innerHeight
+    if((boardWidth * scale) > (window.innerHeight - 180)){
+        scale = ((window.innerHeight - 180) / (boardWidth))
     }
-    if(numToCompare < 600){
-        const boardWidth = (window.innerWidth * 0.2064)
-        const scale = (numToCompare / boardWidth)
-        document.getElementById("board").style.transform = "scale(" + (scale * 0.45).toString() + ")"
-        for(let i = 1; i <= 9; i++){
-            document.getElementById("tile" + i.toString()).style.left = "calc(50vw - " + (((boardWidth / 2) * 0.45) + 1.5) + "px)"
-            document.getElementById("tile" + i.toString()).style.top = "calc(19vh - 27px)"
-            if(navigator.userAgent.match(/Android/i)){
-                document.getElementById("tile" + i.toString()).style.top = "calc(19vh - 41px)"
-            }
-        }
-    }
+    document.getElementById("board").style.transform = "scale(" + scale + ")"
+    document.getElementById("board").style.top = "calc(50% - " + (5 * scale) + "vw)"
+    document.getElementById("board").style.left = "calc(50% - " + (5 * scale) + "vw)"
 }
 
 const handleCrossClick = function(){
