@@ -9,6 +9,7 @@ var winner = null
 var socket = null
 var canClickTile = true
 var banIsVisible = false
+var blockerWarningIsVisible = false
 
 document.addEventListener("DOMContentLoaded", function(event){
     if(localStorage.getItem("guide") != null){
@@ -28,12 +29,50 @@ const registerTileClickEvent = function(tileNr){
         if(!canPlaceHere[tileNr - 1] && banIsVisible && blockerWasPlaced){
             clickedOnBan = true
         }
+        if(!blockerWasPlaced && tiles[tileNr - 1] == "Y"){
+            clickedOnBan = true
+            if(!blockerWarningIsVisible){
+                showBlockerAlreadyHere(tileNr)
+            }
+        }
         if(winner == null && playerTurn == 0 && myColor == "R" && canClickTile && !clickedOnBan
         || winner == null && playerTurn == 1 && myColor == "B" && canClickTile && !clickedOnBan){
             canClickTile = false
             socket.emit("tileClick", tileNr.toString())
         }
     })
+}
+
+const showBlockerAlreadyHere = function(tileNr){
+    blockerWarningIsVisible = true
+    document.getElementById("blocker-warning").style.display = "inherit"
+
+    const icon = document.getElementById("blocker-warning")
+
+    if(tileNr == 1 || tileNr == 2 || tileNr == 3){
+        icon.style.marginTop = "calc(-10vw - 0.32vw - 0.735vw - 1.7vw)"
+    }
+    else if(tileNr == 7 || tileNr == 8 || tileNr == 9){
+        icon.style.marginTop = "calc(10vw + 0.32vw - 0.735vw - 1.7vw)"
+    }
+    else{
+        icon.style.marginTop = "calc(-0.735vw - 1.7vw)"
+    }
+
+    if(tileNr == 1 || tileNr == 4 || tileNr == 7){
+        icon.style.marginLeft = "calc(-10vw - 0.32vw - 0.735vw - 0.15vw)"
+    }
+    else if(tileNr == 3 || tileNr == 6 || tileNr == 9){
+        icon.style.marginLeft = "calc(10vw + 0.32vw + 0.735vw - 1.7vw)"
+    }
+    else{
+        icon.style.marginLeft = "calc(-0.9vw)"
+    }
+
+    setTimeout(function(){
+        document.getElementById("blocker-warning").style.display = "none"
+        blockerWarningIsVisible = false
+    }, 4000)
 }
 
 const getAmountOfRedTiles = function(){
@@ -272,11 +311,23 @@ const setUpOpponentWaiter = function(){
         socket.on("opponentDisconnected", function(_){
             if(myColor == "R" && winner == null){
                 winner = 0
-                setTurnText("Opponent disconnected, Red wins!")
+                setTurnText("You win!<br/><span class=\"small-pill-text\">opponent disconnected</span>")
+                document.getElementById("turn-pill").style.width = "222px"
+                document.getElementById("turn-pill").style.height = "70px"
+                document.getElementById("turn-pill-text").style.top = "initial"
+                document.getElementById("turn-pill-text").style.marginLeft = "initial"
+                document.getElementById("turn-pill").style.backgroundColor = "#F01C17"
+                document.getElementById("turn-pill").style.border = "none"
             }
             else if(myColor == "B" && winner == null){
                 winner = 1
-                setTurnText("Opponent disconnected, Blue wins!")
+                setTurnText("You win!<br/><span class=\"small-pill-text\">opponent disconnected</span>")
+                document.getElementById("turn-pill").style.width = "222px"
+                document.getElementById("turn-pill").style.height = "70px"
+                document.getElementById("turn-pill-text").style.top = "initial"
+                document.getElementById("turn-pill-text").style.marginLeft = "initial"
+                document.getElementById("turn-pill").style.backgroundColor = "#002AA2"
+                document.getElementById("turn-pill").style.border = "none"
             }
             socket.disconnect()
         })

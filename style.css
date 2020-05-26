@@ -843,3 +843,33 @@ body {
 .small-pill-text {
     font-size: 15px;
 }
+
+#blocker-warning {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 12vw;
+    display: none;
+    opacity: 0;
+    animation: blocker-warning-show 4s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes blocker-warning-show {
+    0% {
+        top: 2vh;
+        opacity: 0;
+    }
+    10% {
+        top: 0;
+        opacity: 1;
+    }
+    90% {
+        top: 0;
+        opacity: 1;
+    }
+    100% {
+        top: 0;
+        opacity: 0;
+    }
+}
