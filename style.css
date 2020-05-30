@@ -844,7 +844,7 @@ body {
     font-size: 15px;
 }
 
-#blocker-warning {
+#blocker-warning, #disabled-warning {
     position: absolute;
     left: 0;
     top: 0;
@@ -853,6 +853,10 @@ body {
     opacity: 0;
     animation: blocker-warning-show 4s;
     animation-fill-mode: forwards;
+}
+
+#disabled-warning {
+    width: 13.84vw;
 }
 
 @keyframes blocker-warning-show {

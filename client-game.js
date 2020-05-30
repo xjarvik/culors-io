@@ -10,6 +10,7 @@ var socket = null
 var canClickTile = true
 var banIsVisible = false
 var blockerWarningIsVisible = false
+var disabledWarningIsVisible = false
 
 document.addEventListener("DOMContentLoaded", function(event){
     if(localStorage.getItem("guide") != null){
@@ -28,6 +29,9 @@ const registerTileClickEvent = function(tileNr){
         var clickedOnBan = false
         if(!canPlaceHere[tileNr - 1] && banIsVisible && blockerWasPlaced){
             clickedOnBan = true
+            if(!disabledWarningIsVisible){
+                showThisTileIsDisabled(tileNr)
+            }
         }
         if(!blockerWasPlaced && tiles[tileNr - 1] == "Y"){
             clickedOnBan = true
@@ -72,6 +76,38 @@ const showBlockerAlreadyHere = function(tileNr){
     setTimeout(function(){
         document.getElementById("blocker-warning").style.display = "none"
         blockerWarningIsVisible = false
+    }, 4000)
+}
+
+const showThisTileIsDisabled = function(tileNr){
+    disabledWarningIsVisible = true
+    document.getElementById("disabled-warning").style.display = "inherit"
+
+    const icon = document.getElementById("disabled-warning")
+
+    if(tileNr == 1 || tileNr == 2 || tileNr == 3){
+        icon.style.marginTop = "calc(-10vw - 0.32vw - 0.735vw - 2.25vw)"
+    }
+    else if(tileNr == 7 || tileNr == 8 || tileNr == 9){
+        icon.style.marginTop = "calc(10vw + 0.32vw - 0.735vw - 2.25vw)"
+    }
+    else{
+        icon.style.marginTop = "calc(-0.735vw - 2.25vw)"
+    }
+
+    if(tileNr == 1 || tileNr == 4 || tileNr == 7){
+        icon.style.marginLeft = "calc(-10vw - 0.32vw - 0.735vw - 1.05vw)"
+    }
+    else if(tileNr == 3 || tileNr == 6 || tileNr == 9){
+        icon.style.marginLeft = "calc(10vw + 0.32vw + 0.735vw - 2.6vw)"
+    }
+    else{
+        icon.style.marginLeft = "calc(-1.8vw)"
+    }
+
+    setTimeout(function(){
+        document.getElementById("disabled-warning").style.display = "none"
+        disabledWarningIsVisible = false
     }, 4000)
 }
 
@@ -236,10 +272,40 @@ const updateBanIconPosition = function(){
 
 const checkWinCondition = function(){
     if(winner == 0){
-        setTurnText("Red wins!")
+        document.getElementById("turn-pill").style.border = "none"
+        document.getElementById("turn-pill").style.width = "222px"
+        document.getElementById("turn-pill").style.height = "70px"
+        document.getElementById("turn-pill-text").style.top = "4px"
+        document.getElementById("turn-pill-text").style.marginLeft = "initial"
+        if(myColor == "R"){
+            setTurnText("You win!")
+            document.getElementById("turn-pill").style.backgroundColor = "#F01C17"
+        }
+        else if(myColor == "B"){
+            setTurnText("Opponent wins!")
+            document.getElementById("turn-pill").style.backgroundColor = "#F01C17"
+        }
+        document.getElementById("turn-pill").style.display = "inherit"
+        document.getElementById("opponent-wait-animation").style.visibility = "hidden"
+        document.getElementById("bottombar-text").style.visibility = "hidden"
     }
     else if(winner == 1){
-        setTurnText("Blue wins!")
+        document.getElementById("turn-pill").style.border = "none"
+        document.getElementById("turn-pill").style.width = "222px"
+        document.getElementById("turn-pill").style.height = "70px"
+        document.getElementById("turn-pill-text").style.top = "4px"
+        document.getElementById("turn-pill-text").style.marginLeft = "initial"
+        if(myColor == "R"){
+            setTurnText("Opponent wins!")
+            document.getElementById("turn-pill").style.backgroundColor = "#002AA2"
+        }
+        else if(myColor == "B"){
+            setTurnText("You win!")
+            document.getElementById("turn-pill").style.backgroundColor = "#002AA2"
+        }
+        document.getElementById("turn-pill").style.display = "inherit"
+        document.getElementById("opponent-wait-animation").style.visibility = "hidden"
+        document.getElementById("bottombar-text").style.visibility = "hidden"
     }
 }
 
