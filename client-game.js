@@ -13,10 +13,30 @@ var blockerWarningIsVisible = false
 var disabledWarningIsVisible = false
 
 document.addEventListener("DOMContentLoaded", function(event){
-    if(localStorage.getItem("guide") != null){
+    var validTab = localStorage.getItem("tabTime")
+    if(validTab == null){
+        validTab = true
+    }
+    else if(Date.now() > parseInt(validTab)){
+        validTab = true
+    }
+    else{
+        validTab = false
+    }
+    if(localStorage.getItem("guide") != null && validTab){
+        setUpValidTabTimer()
         setUpOpponentWaiter()
     }
 })
+
+const setUpValidTabTimer = function(){
+    setInterval(function(){
+        localStorage.setItem("tabTime", (Date.now() + 1000).toString())
+    }, 1000)
+    window.addEventListener("beforeunload", function(event){
+        localStorage.removeItem("tabTime")
+    })
+}
 
 const registerAllTileClickEvents = function(){
     for(let i = 1; i <= 9; i++){
