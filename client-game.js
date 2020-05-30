@@ -25,7 +25,9 @@ document.addEventListener("DOMContentLoaded", function(event){
     }
     if(localStorage.getItem("guide") != null && validTab){
         setUpValidTabTimer()
-        setUpOpponentWaiter()
+        setTimeout(function(){
+            setUpOpponentWaiter()
+        }, 500)
     }
 })
 
