@@ -31,6 +31,27 @@ document.addEventListener("DOMContentLoaded", function(event){
     }
 })
 
+const resetGame = function(){
+    playerTurn = 0
+    myColor = ""
+    tiles = ["O", "O", "O", "O", "O", "O", "O", "O", "O"]
+    canPlaceHere = [true, true, true, true, false, true, true, true, true]
+    blockerWasPlaced = false
+    redHasPlaced = false
+    blueHasPlaced = false
+    winner = null
+    canClickTile = true
+    banIsVisible = false
+    blockerWarningIsVisible = false
+    disabledWarningIsVisible = false
+    document.getElementById("turn-pill").style.display = "none"
+    document.getElementById("opponent-wait-animation").style.visibility = "inherit"
+    document.getElementById("bottombar-text").style.visibility = "inherit"
+    setBoardColors()
+    hideAllBanIcons()
+    setTurnText("Connecting")
+}
+
 const setUpValidTabTimer = function(){
     setInterval(function(){
         localStorage.setItem("tabTime", (Date.now() + 1000).toString())
@@ -363,6 +384,12 @@ const setUpOpponentWaiter = function(){
     socket.on("connect", function(){
         setTurnText("Searching for opponent")
     })
+    socket.on("disconnect", function(){
+        if(winner == null){
+            resetGame()
+            showYouWereUnexpectedlyDisconnected()
+        }
+    })
     socket.on("matchCreated", function(receivedColor){
         myColor = receivedColor
         setBanIconToTile(1, 5)
@@ -419,12 +446,14 @@ const setUpOpponentWaiter = function(){
             }
             socket.disconnect()
         })
-        socket.on("disconnect", function(){
-            if(winner == null){
-                alert("You were unexpectedly disconnected.")
-            }
-        })
     })
+}
+
+const showYouWereUnexpectedlyDisconnected = function(){
+    document.getElementById("disconnect-alert").style.display = "inherit"
+    setTimeout(function(){
+        document.getElementById("disconnect-alert").style.display = "none"
+    }, 5000)
 }
 
 const setBoardColors = function(){

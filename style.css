@@ -877,3 +877,26 @@ body {
         opacity: 0;
     }
 }
+
+#disconnect-alert {
+    position: absolute;
+    left: calc(50vw - 171px);
+    bottom: 7px;
+    width: 340px;
+    height: 50px;
+    border-radius: 8px;
+    background-color: #FFFFFF;
+    border: 2px solid #F01C17;
+    display: none;
+}
+
+#disconnect-alert-text {
+    font-family: "Montserrat", sans-serif;
+    font-size: 15px;
+    width: 100%;
+    text-align: center;
+}
+
+#disconnect-alert-icon {
+    color: #F01C17;
+}
