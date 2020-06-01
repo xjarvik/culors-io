@@ -11,6 +11,7 @@ var canClickTile = true
 var banIsVisible = false
 var blockerWarningIsVisible = false
 var disabledWarningIsVisible = false
+var amountOfRounds = 0
 
 document.addEventListener("DOMContentLoaded", function(event){
     var validTab = localStorage.getItem("tabTime")
@@ -210,6 +211,7 @@ const updateTurnText = function(){
             }
         }
         else{
+            amountOfRounds = amountOfRounds + 1
             if(myColor == "R"){
                 setTurnText("Your turn<br/><span class=\"small-pill-text\">color</span>")
                 document.getElementById("turn-pill").style.backgroundColor = "#F01C17"
@@ -244,6 +246,7 @@ const updateTurnText = function(){
             }
         }
         else{
+            amountOfRounds = amountOfRounds + 1
             if(myColor == "B"){
                 setTurnText("Your turn<br/><span class=\"small-pill-text\">color</span>")
                 document.getElementById("turn-pill").style.backgroundColor = "#002AA2"
@@ -315,7 +318,8 @@ const updateBanIconPosition = function(){
 
 const checkWinCondition = function(){
     if(winner == 0){
-        delete socket
+        document.getElementById("win-alert-lasted").innerText = "That match lasted " + amountOfRounds.toString() + " rounds"
+        socket.disconnect()
         setTimeout(function(){
             document.getElementById("win-alert").style.display = "inherit"
             document.getElementById("play-again-button").addEventListener("click", function(event){
@@ -348,7 +352,8 @@ const checkWinCondition = function(){
         document.getElementById("bottombar-text").style.visibility = "hidden"
     }
     else if(winner == 1){
-        delete socket
+        document.getElementById("win-alert-lasted").innerText = "That match lasted " + amountOfRounds.toString() + " rounds"
+        socket.disconnect()
         setTimeout(function(){
             document.getElementById("win-alert").style.display = "inherit"
             document.getElementById("play-again-button").addEventListener("click", function(event){
@@ -410,7 +415,13 @@ const setCookie = function(name, value, days){
 
 const setUpOpponentWaiter = function(){
     setTurnText("Connecting")
-    socket = io("https://server.culors.io")
+    if(socket == null){
+        socket = io("https://server.culors.io")
+    }
+    else{
+        socket.connect()
+        socket.removeAllListeners()
+    }
     socket.on("connect", function(){
         setTurnText("Searching for opponent")
     })
@@ -423,6 +434,7 @@ const setUpOpponentWaiter = function(){
     socket.on("matchCreated", function(receivedColor){
         myColor = receivedColor
         setBanIconToTile(1, 5)
+        amountOfRounds = 1
 
         if(myColor == "R"){
             setMyColorText("Your color is: Red")
@@ -463,6 +475,7 @@ const setUpOpponentWaiter = function(){
                 document.getElementById("turn-pill-text").style.marginLeft = "initial"
                 document.getElementById("turn-pill").style.backgroundColor = "#F01C17"
                 document.getElementById("turn-pill").style.border = "none"
+                document.getElementById("play-again-button-text").style.color = "#F01C17"
             }
             else if(myColor == "B" && winner == null){
                 winner = 1
@@ -473,8 +486,20 @@ const setUpOpponentWaiter = function(){
                 document.getElementById("turn-pill-text").style.marginLeft = "initial"
                 document.getElementById("turn-pill").style.backgroundColor = "#002AA2"
                 document.getElementById("turn-pill").style.border = "none"
+                document.getElementById("play-again-button-text").style.color = "#002AA2"
             }
-            delete socket
+            socket.disconnect()
+            setTimeout(function(){
+                document.getElementById("win-alert").style.display = "inherit"
+                document.getElementById("play-again-button").addEventListener("click", function(event){
+                    document.getElementById("win-alert").style.display = "none"
+                    resetGame()
+                    setUpOpponentWaiter()
+                })
+            }, 800)
+            document.getElementById("win-alert-text").innerText = "You win!"
+            document.getElementById("crown").src = "crown.png"
+            document.getElementById("win-alert-lasted").innerText = "Opponent disconnected"
         })
     })
 }
