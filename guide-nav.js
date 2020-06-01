@@ -17,9 +17,11 @@ var currentAnimIntervals = []
 document.addEventListener("DOMContentLoaded", function(event){
     scaleGuide()
     scaleBoard()
+    scaleWinAlert()
     window.addEventListener("resize", function(event){
         scaleGuide()
         scaleBoard()
+        scaleWinAlert()
     })
     if(localStorage.getItem("guide") == null){
         document.getElementById("opponent-wait-animation").style.visibility = "hidden"
@@ -30,6 +32,23 @@ document.addEventListener("DOMContentLoaded", function(event){
     handlePreviousButtonClick()
     handleCrossClick()
 })
+
+const scaleWinAlert = function(){
+    var numToCompare = 0
+    if(window.innerWidth <= window.innerHeight){
+        numToCompare = window.innerWidth
+    }
+    else {
+        numToCompare = window.innerHeight
+    }
+    if(numToCompare < 600){
+        const scale = (numToCompare / 550) * 1.06
+        document.getElementById("win-alert").style.transform = "scale(" + scale.toString() + ")"
+    }
+    else {
+        document.getElementById("win-alert").style.transform = "scale(1)"
+    }
+}
 
 const scaleGuide = function(){
     var numToCompare = 0
@@ -53,6 +72,9 @@ const scaleBoard = function(){
     var scale = 1
     if(window.innerWidth <= 600){
         scale = 2
+        if(window.innerWidth <= 375){
+            scale = 2.18
+        }
     }
     if((boardWidth * scale) > (window.innerHeight - 180)){
         scale = ((window.innerHeight - 180) / (boardWidth))
