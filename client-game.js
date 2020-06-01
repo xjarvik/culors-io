@@ -315,6 +315,15 @@ const updateBanIconPosition = function(){
 
 const checkWinCondition = function(){
     if(winner == 0){
+        delete socket
+        setTimeout(function(){
+            document.getElementById("win-alert").style.display = "inherit"
+            document.getElementById("play-again-button").addEventListener("click", function(event){
+                document.getElementById("win-alert").style.display = "none"
+                resetGame()
+                setUpOpponentWaiter()
+            })
+        }, 800)
         document.getElementById("turn-pill").style.border = "none"
         document.getElementById("turn-pill").style.width = "222px"
         document.getElementById("turn-pill").style.height = "70px"
@@ -322,10 +331,16 @@ const checkWinCondition = function(){
         document.getElementById("turn-pill-text").style.marginLeft = "initial"
         if(myColor == "R"){
             setTurnText("You win!")
+            document.getElementById("win-alert-text").innerText = "You win!"
+            document.getElementById("crown").src = "crown.png"
+            document.getElementById("play-again-button-text").style.color = "#F01C17"
             document.getElementById("turn-pill").style.backgroundColor = "#F01C17"
         }
         else if(myColor == "B"){
             setTurnText("Opponent wins!")
+            document.getElementById("win-alert-text").innerText = "You lost!"
+            document.getElementById("crown").src = "close.png"
+            document.getElementById("play-again-button-text").style.color = "#002AA2"
             document.getElementById("turn-pill").style.backgroundColor = "#F01C17"
         }
         document.getElementById("turn-pill").style.display = "inherit"
@@ -333,6 +348,15 @@ const checkWinCondition = function(){
         document.getElementById("bottombar-text").style.visibility = "hidden"
     }
     else if(winner == 1){
+        delete socket
+        setTimeout(function(){
+            document.getElementById("win-alert").style.display = "inherit"
+            document.getElementById("play-again-button").addEventListener("click", function(event){
+                document.getElementById("win-alert").style.display = "none"
+                resetGame()
+                setUpOpponentWaiter()
+            })
+        }, 800)
         document.getElementById("turn-pill").style.border = "none"
         document.getElementById("turn-pill").style.width = "222px"
         document.getElementById("turn-pill").style.height = "70px"
@@ -340,10 +364,16 @@ const checkWinCondition = function(){
         document.getElementById("turn-pill-text").style.marginLeft = "initial"
         if(myColor == "R"){
             setTurnText("Opponent wins!")
+            document.getElementById("win-alert-text").innerText = "You lost!"
+            document.getElementById("crown").src = "close.png"
+            document.getElementById("play-again-button-text").style.color = "#F01C17"
             document.getElementById("turn-pill").style.backgroundColor = "#002AA2"
         }
         else if(myColor == "B"){
             setTurnText("You win!")
+            document.getElementById("win-alert-text").innerText = "You win!"
+            document.getElementById("crown").src = "crown.png"
+            document.getElementById("play-again-button-text").style.color = "#002AA2"
             document.getElementById("turn-pill").style.backgroundColor = "#002AA2"
         }
         document.getElementById("turn-pill").style.display = "inherit"
@@ -444,7 +474,7 @@ const setUpOpponentWaiter = function(){
                 document.getElementById("turn-pill").style.backgroundColor = "#002AA2"
                 document.getElementById("turn-pill").style.border = "none"
             }
-            socket.disconnect()
+            delete socket
         })
     })
 }
