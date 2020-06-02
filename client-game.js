@@ -441,7 +441,7 @@ const setUpOpponentWaiter = function(){
     socket.on("connect", function(){
         setTurnText("Searching for opponent")
     })
-    socket.on("disconnect", function(){
+    socket.on("disconnect", function(reason){
         document.getElementById("timer").style.opacity = "0"
         if(timer != null){
             clearTimeout(timer)
@@ -449,7 +449,21 @@ const setUpOpponentWaiter = function(){
         if(interval != null){
             clearInterval(interval)
         }
-        if(winner == null){
+        if(reason == "io server disconnect"){
+            resetGame()
+            setTurnText(" ")
+            document.getElementById("opponent-wait-animation").style.visibility = "hidden"
+            document.getElementById("win-alert").style.display = "inherit"
+            document.getElementById("play-again-button").addEventListener("click", function(event){
+                document.getElementById("win-alert").style.display = "none"
+                document.getElementById("opponent-wait-animation").style.visibility = "visible"
+                setUpOpponentWaiter()
+            })
+            document.getElementById("win-alert-text").innerText = "Disconnected"
+            document.getElementById("crown").src = "close.png"
+            document.getElementById("win-alert-lasted").innerText = "You were idle for too long"
+        }
+        else if(winner == null){
             resetGame()
             showYouWereUnexpectedlyDisconnected()
         }
