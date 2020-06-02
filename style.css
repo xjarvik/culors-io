@@ -993,3 +993,13 @@ body {
         top: 0px;
     }
 }
+
+#timer {
+    position: absolute;
+    font-family: "Montserrat", sans-serif;
+    font-size: 18px;
+    bottom: 7px;
+    left: calc(50vw + 130px);
+    color: #F01C17;
+    opacity: 0;
+}

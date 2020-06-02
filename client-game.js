@@ -12,6 +12,8 @@ var banIsVisible = false
 var blockerWarningIsVisible = false
 var disabledWarningIsVisible = false
 var amountOfRounds = 0
+var timer = null
+var interval = null
 
 document.addEventListener("DOMContentLoaded", function(event){
     var validTab = localStorage.getItem("tabTime")
@@ -318,6 +320,13 @@ const updateBanIconPosition = function(){
 
 const checkWinCondition = function(){
     if(winner == 0){
+        document.getElementById("timer").style.opacity = "0"
+        if(timer != null){
+            clearTimeout(timer)
+        }
+        if(interval != null){
+            clearInterval(interval)
+        }
         document.getElementById("win-alert-lasted").innerText = "That match lasted " + amountOfRounds.toString() + " rounds"
         socket.disconnect()
         setTimeout(function(){
@@ -352,6 +361,13 @@ const checkWinCondition = function(){
         document.getElementById("bottombar-text").style.visibility = "hidden"
     }
     else if(winner == 1){
+        document.getElementById("timer").style.opacity = "0"
+        if(timer != null){
+            clearTimeout(timer)
+        }
+        if(interval != null){
+            clearInterval(interval)
+        }
         document.getElementById("win-alert-lasted").innerText = "That match lasted " + amountOfRounds.toString() + " rounds"
         socket.disconnect()
         setTimeout(function(){
@@ -426,12 +442,20 @@ const setUpOpponentWaiter = function(){
         setTurnText("Searching for opponent")
     })
     socket.on("disconnect", function(){
+        document.getElementById("timer").style.opacity = "0"
+        if(timer != null){
+            clearTimeout(timer)
+        }
+        if(interval != null){
+            clearInterval(interval)
+        }
         if(winner == null){
             resetGame()
             showYouWereUnexpectedlyDisconnected()
         }
     })
     socket.on("matchCreated", function(receivedColor){
+        resetTimer()
         myColor = receivedColor
         setBanIconToTile(1, 5)
         amountOfRounds = 1
@@ -463,9 +487,19 @@ const setUpOpponentWaiter = function(){
             updateTurnText()
             checkWinCondition()
             canClickTile = true
+            if(winner == null){
+                resetTimer()
+            }
         })
         registerAllTileClickEvents()
         socket.on("opponentDisconnected", function(_){
+            document.getElementById("timer").style.opacity = "0"
+            if(timer != null){
+                clearTimeout(timer)
+            }
+            if(interval != null){
+                clearInterval(interval)
+            }
             if(myColor == "R" && winner == null){
                 winner = 0
                 setTurnText("You win!<br/><span class=\"small-pill-text\">opponent disconnected</span>")
@@ -502,6 +536,7 @@ const setUpOpponentWaiter = function(){
             document.getElementById("win-alert-lasted").innerText = "Opponent disconnected"
         })
     })
+    document.getElementById("timer").style.opacity = "0"
 }
 
 const showYouWereUnexpectedlyDisconnected = function(){
@@ -531,4 +566,25 @@ const setBoardColors = function(){
 
 const setMyColorText = function(text){
     /*document.getElementById("my-color").innerText = text*/
+}
+
+const resetTimer = function(){
+    document.getElementById("timer").style.opacity = "0"
+    document.getElementById("timer").innerText = "10"
+    if(timer != null){
+        clearTimeout(timer)
+    }
+    if(interval != null){
+        clearInterval(interval)
+    }
+    timer = setTimeout(function(){
+        var count = 9
+        document.getElementById("timer").style.opacity = "1"
+        interval = setInterval(function(){
+            document.getElementById("timer").innerText = count.toString()
+            if(count > 0){
+                count = count - 1
+            }
+        }, 1000)
+    }, 19000)
 }
