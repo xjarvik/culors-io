@@ -42,7 +42,7 @@ const scaleWinAlert = function(){
         numToCompare = window.innerHeight
     }
     if(numToCompare < 600){
-        const scale = (numToCompare / 550) * 1.06
+        const scale = (numToCompare / 550) * 1.15
         document.getElementById("win-alert").style.transform = "scale(" + scale.toString() + ")"
     }
     else {
@@ -61,6 +61,7 @@ const scaleGuide = function(){
     if(numToCompare < 600){
         const scale = (numToCompare / 550) * 0.98
         document.getElementById("guide").style.transform = "scale(" + scale.toString() + ")"
+        document.getElementById("guide-text").style.fontSize = "20px"
     }
     else {
         document.getElementById("guide").style.transform = "scale(1)"
