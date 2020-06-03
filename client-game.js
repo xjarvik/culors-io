@@ -80,9 +80,15 @@ const registerTileClickEvent = function(tileNr){
             }
         }
         if(!blockerWasPlaced && tiles[tileNr - 1] == "Y"){
-            clickedOnBan = true
-            if(!blockerWarningIsVisible){
-                showBlockerAlreadyHere(tileNr)
+            if(getAmountOfRedTiles() >= getAmountOfBlueTiles() && redHasPlaced && !blockerWasPlaced && playerTurn == 0
+            || getAmountOfBlueTiles() >= getAmountOfRedTiles() && blueHasPlaced && !blockerWasPlaced && playerTurn == 1){
+
+            }
+            else{
+                clickedOnBan = true
+                if(!blockerWarningIsVisible){
+                    showBlockerAlreadyHere(tileNr)
+                }
             }
         }
         if(winner == null && playerTurn == 0 && myColor == "R" && canClickTile && !clickedOnBan
