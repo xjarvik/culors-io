@@ -713,6 +713,12 @@ body {
     animation-fill-mode: forwards;
 }
 
+.yellow-ban-special {
+    animation: guide-ban-icon-fade-out 0.3s, guide-ban-icon-fade-in 0.5s;
+    animation-delay: 1.1s, 3s;
+    animation-fill-mode: forwards;
+}
+
 #guide-cross-1 {
     background-color: lightgrey;
     width: 25px;

@@ -4,9 +4,9 @@ var pageContent = [
     "When you enter a match, you are assigned a color;<br/><b><span class=\"red-text\">Red</span></b> or <b><span class=\"blue-text\">Blue</span></b>. <b><span class=\"red-text\">Red</span></b> always starts.",
     "By clicking a tile, you fill that tile with your assigned color, as well as the 4 surrounding tiles. The middle tile is disabled during the first two rounds.",
     "Your goal is to eliminate all opposing color tiles.",
-    "Filling tiles during a round will disable those tiles for the opponent during the next round. Disabled tiles can not be clicked on. Disabled tiles are marked with <i class=\"fa fa-ban\" aria-hidden=\"true\"></i>.",
+    "Filling tiles during a round will disable those tiles for the opponent during the next round. Disabled tiles can not be directly clicked on, but can still be filled by the 4 \"surrounding\" tiles. Disabled tiles are marked with <i class=\"fa fa-ban\" aria-hidden=\"true\"></i>.",
     "If you have the <i>least</i> amount of colored tiles, you get to place a <b><span class=\"yellow-text\">blocker</span></b> tile before placing your color tiles.",
-    "The <b><span class=\"yellow-text\">blocker</span></b> tile can be placed <i>anywhere</i>, even on a disabled tile. Placing a blocker only fills the clicked tile, not the surrounding tiles.",
+    "The <b><span class=\"yellow-text\">blocker</span></b> tile can be placed <i>anywhere</i> (except on another blocker), even on a disabled tile. Blockers only fill the clicked tile, not the surrounding tiles. Blockers can never become disabled.",
     "The <b><span class=\"yellow-text\">blocker</span></b> tile prevents red and blue color from filling it, unless the color is placed directly on it.",
     "By placing your color directly on a <b><span class=\"yellow-text\">blocker</span></b> tile, that tile and all <i>connected</i> blocker tiles will be filled with your color. Doing this will <i>not</i> disable those tiles for the opponent during the next round.",
     "That's it! Press Play to begin!"
@@ -260,8 +260,7 @@ const startPage4Anim = function(){
     const cursor = document.getElementById("cursor-red")
     const blueCursor = document.getElementById("cursor-blue")
     setTilesToColor([1], "R")
-    setTilesToColor([2, 3, 4, 5, 6, 8, 9], "B")
-    setTilesToColor([7], "Y")
+    setTilesToColor([2, 3, 4, 5, 6, 7, 8, 9], "B")
     const anim = function(){
         currentAnimTimeouts.push(setTimeout(function(){
             cursor.classList.remove("page-1-mid")
@@ -322,6 +321,9 @@ const startPage6Anim = function(){
             cursor.classList.remove("page-1-right")
             cursor.classList.remove("page-1-top")
             void cursor.offsetWidth
+            document.getElementById("guide-ban-icon2").classList.remove("yellow-ban-special")
+            void document.getElementById("guide-ban-icon2").offsetWidth
+            document.getElementById("guide-ban-icon2").classList.add("yellow-ban-special")
             cursor.classList.add("page-1-right")
             fadeInTiles([6], "Y")
         }, 1500))
@@ -500,6 +502,7 @@ const resetAnims = function(){
     void document.getElementById("guide-ban-icon1").offsetWidth
 
     document.getElementById("guide-ban-icon2").classList.remove("guide-ban-icon-fade-in")
+    document.getElementById("guide-ban-icon2").classList.remove("yellow-ban-special")
     void document.getElementById("guide-ban-icon2").offsetWidth
 
     document.getElementById("guide-ban-icon3").classList.remove("guide-ban-icon-fade-in")
