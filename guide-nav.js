@@ -5,7 +5,7 @@ var pageContent = [
     "By clicking a tile, you fill that tile with your assigned color, as well as the 4 surrounding tiles. The middle tile is disabled during the first two rounds.",
     "Your goal is to eliminate all opposing color tiles.",
     "Filling tiles during a round will disable those tiles for the opponent during the next round. Disabled tiles can not be directly clicked on, but can still be filled by the 4 \"surrounding\" tiles. Disabled tiles are marked with <i class=\"fa fa-ban\" aria-hidden=\"true\"></i>.",
-    "If you have the <i>least</i> amount of colored tiles, you get to place a <b><span class=\"yellow-text\">blocker</span></b> tile before placing your color tiles.",
+    "If you go into a round while having the <i>least</i> amount of colored tiles, you must place a <b><span class=\"yellow-text\">blocker</span></b> tile before placing your color tiles.",
     "The <b><span class=\"yellow-text\">blocker</span></b> tile can be placed <i>anywhere</i> (except on another blocker), even on a disabled tile. Blockers only fill the clicked tile, not the surrounding tiles. Blockers can never become disabled.",
     "The <b><span class=\"yellow-text\">blocker</span></b> tile prevents red and blue color from filling it, unless the color is placed directly on it.",
     "By placing your color directly on a <b><span class=\"yellow-text\">blocker</span></b> tile, that tile and all <i>connected</i> blocker tiles will be filled with your color. Doing this will <i>not</i> disable those tiles for the opponent during the next round.",
